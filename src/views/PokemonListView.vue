@@ -62,8 +62,8 @@ const search = ref('')
 
 <template>
   <div class="flex h-full max-h-full flex-col">
-    <div class="relative flex h-full flex-col pb-20 pt-10">
-      <div class="mb-12 flex gap-2">
+    <div class="relative flex h-full flex-col pb-20 pt-[35px]">
+      <div class="mb-10 flex gap-2">
         <DebouncedInput v-model:value="search" @update:value="handleSearch" />
 
         <DropdownSwitch class="flex-shrink">

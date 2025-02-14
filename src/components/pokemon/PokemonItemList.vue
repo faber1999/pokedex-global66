@@ -15,9 +15,11 @@ const { addFavorite, removeFavorite, isFavorite } = usePokemonsStore()
 <template>
   <RouterLink
     :to="{ path: `/pokemons/${pokemon.name}` }"
-    class="flex items-center rounded-lg bg-white p-4"
+    class="flex h-[60px] items-center rounded-lg bg-white px-5"
   >
-    <h2 class="flex-grow text-xl font-bold capitalize">{{ pokemon.name }}</h2>
+    <span class="flex-grow text-[22px] font-medium capitalize text-custom-base-6">{{
+      pokemon.name
+    }}</span>
 
     <MyButton
       type="ghost"
