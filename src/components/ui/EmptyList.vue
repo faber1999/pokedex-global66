@@ -10,7 +10,7 @@ defineEmits(['handleGoBack'])
     <span class="text-xl text-custom-base-5">Yoy look lost on your journey!</span>
 
     <MyButton
-      class="w-fit rounded-full text-lg"
+      class="w-fit rounded-full px-5 text-lg"
       type="primary"
       @click="() => $emit('handleGoBack')"
     >
