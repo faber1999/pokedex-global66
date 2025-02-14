@@ -2,7 +2,12 @@
 
 Una aplicación de Vue 3 desarrollada con Vite, que sirve como Pokédex global para explorar y ver detalles de Pokémons. Este proyecto demuestra varias funcionalidades modernas en una SPA (Single Page Application).
 
-![Project Preview](./public/preview.png)
+[Sitio web](https://pokedex-global66.fabergrajales.com)
+
+
+## Preview
+
+![Sitio web](./public/preview.png)
 
 ## Descripción del Proyecto
 
