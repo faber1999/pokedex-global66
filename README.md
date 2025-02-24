@@ -4,7 +4,6 @@ Una aplicación de Vue 3 desarrollada con Vite, que sirve como Pokédex global p
 
 [Sitio web](https://pokedex-global66.fabergrajales.com)
 
-
 ## Preview
 
 ![Sitio web](./public/preview.png)
@@ -65,7 +64,10 @@ La estructura del proyecto está organizada de la siguiente manera:
 ## Funcionalidades Clave
 
 - **InfinityScroll**:  
-  Permite cargar más contenido a medida que el usuario se desplaza hacia abajo. Implementado en el componente `InfinityScroll.vue` mediante la detección del final del scroll.
+  Permite cargar más contenido a medida que el usuario se desplaza hacia abajo. implementando el hook `useInfinityScroll`.
+
+- **VirtualList**:
+  Esta funcionalidad optimiza el rendimiento al renderizar únicamente los elementos que son visibles en pantalla. Ideal para listas extensas, reduce la carga del DOM y mejora la velocidad de renderizado, ofreciendo una experiencia más fluida al usuario.
 
 - **Persistencia de Data Configurable**:  
   Se utiliza un store (por ejemplo, `pokemonsStore`) para mantener el estado de la lista de Pokémons, lo que permite conservar los datos a lo largo de la sesión y evitar recargas innecesarias, adicionalmente el usuario puede habilitar la persistencia en localstorage si así lo desea
@@ -88,16 +90,19 @@ La estructura del proyecto está organizada de la siguiente manera:
 - **Filtrado de Pokémons**
   Se permite filtrar los Pokémons por nombre y tipo, facilitando la búsqueda de Pokémons específicos.
 
-- **Paginación**
-  Se implementa un sistema de paginación para mostrar los Pokémons en grupos de a 40.
-
 ## Tecnologías Utilizadas
 
 - **Vue 3**: Framework de JavaScript para la construcción de interfaces de usuario interactivas y reactivas.
+
 - **Vite**: Herramienta de desarrollo rápida y moderna que permite la creación de aplicaciones web con Vue y React.
-- **TypeScript**: Lenguaje de programación que añade tipado estático a JavaScript, facilitando la detección de errores y el desarrollo de aplicaciones más seguras y eficientes.
+
+- **TypeScript**: Lenguaje de programación que añade tipado estático a JavaScript, facilitando la detección de errores y el desarrollo de aplicaciones más seguras y ficientes.
+
 - **TailwindCSS**: Framework de CSS que permite crear estilos y diseños de forma rápida y sencilla, mediante el uso de clases predefinidas.
+
 - **PokeAPI**: API de Pokémon que proporciona información sobre los Pokémons, incluyendo sus nombres, tipos, habilidades y más.
+
+- **@vueuse/core**: Colección de hooks y composables para funcionalidades en general
 
 ## Instalación y Uso
 
