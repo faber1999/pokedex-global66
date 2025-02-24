@@ -5,10 +5,10 @@ import PokemonItemList from '@/components/pokemon/PokemonItemList.vue'
 import DebouncedInput from '@/components/ui/DebouncedInput.vue'
 import DropdownSwitch from '@/components/ui/DropdownSwitch.vue'
 import EmptyList from '@/components/ui/EmptyList.vue'
-import InfinityScroll from '@/components/ui/InfinityScroll.vue'
 import { usePokemonService } from '@/services/pokemonService'
 import { type Pokemon, usePokemonsStore } from '@/stores/pokemonsStore'
 import { ref, toRefs, watch } from 'vue'
+import { useInfiniteScroll, useVirtualList } from '@vueuse/core'
 
 const { fetchPokemons, findPokemonsByName } = usePokemonService()
 
@@ -16,6 +16,9 @@ const { pokemonList, favorites } = toRefs(usePokemonsStore())
 
 const foundPokemons = ref<Pokemon[]>()
 const pokemonsToShow = ref<Pokemon[]>([])
+const search = ref('')
+const currentLevelScroll = ref(1)
+const isLoading = ref(false)
 
 const typeList = ref<string>('all')
 
@@ -34,15 +37,42 @@ const clearSearch = () => {
   foundPokemons.value = undefined
 }
 
-const handleFetch = (levelScroll: number) => {
+const handleFetch = async (levelScroll: number) => {
   if (typeList.value === 'all' && foundPokemons.value === undefined) {
-    fetchPokemons(levelScroll)
+    isLoading.value = true
+    await fetchPokemons(levelScroll)
+    isLoading.value = false
+    currentLevelScroll.value++
   }
 }
 
-watch(
-  [typeList, pokemonList, favorites],
+const { list, containerProps, wrapperProps } = useVirtualList(pokemonsToShow, {
+  // Keep `itemHeight` in sync with the item's row.
+  itemHeight: 60,
+})
+
+useInfiniteScroll(
+  containerProps.ref,
   () => {
+    handleFetch(currentLevelScroll.value)
+  },
+  {
+    idle: 200,
+    distance: 0,
+    canLoadMore: () => {
+      return isLoading.value === false
+    },
+  },
+)
+
+watch(
+  [typeList, pokemonList, favorites, foundPokemons],
+  () => {
+    if (foundPokemons.value) {
+      pokemonsToShow.value = foundPokemons.value
+      return
+    }
+
     if (typeList.value === 'all') {
       pokemonsToShow.value = pokemonList.value
       return
@@ -56,8 +86,6 @@ watch(
     immediate: true,
   },
 )
-
-const search = ref('')
 </script>
 
 <template>
@@ -73,15 +101,15 @@ const search = ref('')
 
       <EmptyList v-if="foundPokemons?.length === 0" @handle-go-back="search = ''" />
 
-      <InfinityScroll v-else @reached-bottom="handleFetch" class="flex-grow">
-        <div class="flex flex-col gap-4">
+      <div v-bind="containerProps">
+        <div v-bind="wrapperProps" class="flex flex-col gap-[10px]">
           <PokemonItemList
-            v-for="pokemon in foundPokemons ?? pokemonsToShow"
-            :key="pokemon.name"
-            v-bind:pokemon="pokemon"
+            v-for="pokemon in list"
+            :key="pokemon.index"
+            v-bind:pokemon="pokemon.data"
           />
         </div>
-      </InfinityScroll>
+      </div>
 
       <RouterView v-slot="{ Component }">
         <Transition name="fade">
